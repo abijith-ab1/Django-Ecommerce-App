@@ -1,0 +1,129 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block head_title %}
+            {% endblock head_title %}
+        </title>
+        {% block extra_head %}
+        {% endblock extra_head %}
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            p {
+                font-weight: 600;
+            }
+            a {
+                color: #3b82f7;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            h1 {
+                color: rgb(76, 74, 74);
+                font-weight: bold;
+                font-size: xx-large;
+            }
+            h2 {
+                margin-top: 2rem;
+                text-align: center;
+                color: #2b7a78;
+                font-weight: 900;
+            }
+            
+            form {
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                margin-top: 1rem;
+                background-color: #f3f4f6;
+            }
+            
+            form label {
+                margin-top: 1rem;
+                align-items: center;
+            }
+
+            form input {
+                padding: 8px 20px;
+                border-radius: 6px;
+                width: 20rem;
+                margin-top: 1rem;
+                margin-left: 1rem;
+            }
+            form input:focus {
+                outline: 2px solid #2b7a78;
+            }
+            form input[type="checkbox"]:focus {
+                outline: none;
+            }
+            form button {
+                margin: 2rem 0;
+                background-color: #5B3C93;
+                color: white;
+                font-weight: bold;
+                padding: 4px 15px;
+                border-radius: 5px;
+                transition: all .2s;
+            }
+            form button:hover {
+                background-color: #3c2468db;
+            }
+            form a {
+                margin-left: 10px;
+                color: gray;
+            }
+            form a:hover {
+                color: #3b82f7;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="">
+            {% block body %}
+                {% if messages %}
+                    <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3">
+                        <strong>{% trans "Messages:" %}</strong>
+                        <ul>
+                            {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                    <nav class="border-b border-gray-300 shadow-md h-18">
+                        <div class="max-w-6xl mx-auto py-2 px-6 xl:px-0 flex items-center justify-around">
+                            <strong class="block mt-2">{% trans "Menu:" %}</strong>
+                                <ul class="flex items-center space-x-4 list-none mt-2">
+                                    {% if user.is_authenticated %}
+                                        <li class="inline-block">
+                                            <a href="{% url 'account_email' %}" class="mb-4 py-2 px-6 rounded-xl font-semibold text-gray-600 text-opacity-75 bg-rose-800 hover:bg-white hover:shadow-md transition-all duration-300">{% trans "Change Email" %}</a>
+                                        </li>
+                                        <li class="inline-block">
+                                            <a href="{% url 'account_logout' %}" class="mb-4 py-2 px-6 rounded-xl font-semibold text-gray-600 text-opacity-75 bg-rose-800 hover:bg-white hover:shadow-md transition-all duration-300">{% trans "Sign Out" %}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="inline-block">
+                                            <a href="{% url 'account_login' %}" class="mb-4 py-2 px-6 rounded-xl font-semibold text-gray-600 text-opacity-75 bg-rose-800 hover:bg-white hover:shadow-md transition-all duration-300">{% trans "Sign In" %}</a>
+                                        </li>
+                                        <li class="inline-block">
+                                            <a href="{% url 'account_signup' %}" class="mb-4 py-2 px-6 rounded-xl font-semibold text-gray-600 text-opacity-75 bg-rose-800 hover:bg-white hover:shadow-md transition-all duration-300">{% trans "Sign Up" %}</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                        </div>
+                    </nav>
+
+                <div class="max-w-6xl p-4 mx-auto border-b border-gray-300">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+                
+            {% endblock body %}
+            {% block extra_body %}
+            {% endblock extra_body %}
+        </div>
+    </body>
+</html>

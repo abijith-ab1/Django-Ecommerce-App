@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% block title %}OTP Verification{% endblock title %}
+{% block content %}
+    <div class="max-w-lg mx-auto flex flex-wrap p-6">
+        <div class="w-full bg-gray-100 p-6 rounded-xl">
+            <h1 class="mb-6 text-2xl">OTP Verification</h1>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="p-4 mt-4 text-white text-sm {% if message.tags %}text-{{ message.tags }}-800{% endif %} rounded-lg bg-{{ message.tags }}-50 dark:bg-gray-800 dark:text-{{ message.tags }}-400" role="alert">
+                        <span class="font-medium">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form method="post" action="{% url 'otp_verification' %}">
+                {% csrf_token %}
+                <label for="otp">Enter OTP:</label>
+                <input type="text" class="w-full mt-2 py-4 px-10 bg-white rounded-xl" name="otp" required>
+                <button type="submit" class="mt-4 py-4 px-6 rounded-xl dark:text-green-400 dark:bg-gray-800 hover:dark:bg-gray-500">Verify OTP</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

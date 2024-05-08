@@ -1,0 +1,136 @@
+{% extends "core/base.html" %}
+{% block title %}Sign UP{% endblock title %}
+{% block content %}
+    <div class="max-w-lg mx-auto flex flex-wrap p-6">
+        <div class="w-full bg-gray-100 p-6 rounded-xl">
+            <h1 class="mb-6 text-2xl">Sign UP</h1>
+            <form action="" method="POST" class="space-y-3" id="registrationForm">
+               {% csrf_token %}
+               <div class="relative">
+                    <label for="username">Username</label>
+                    <div class="flex items-center">
+                        <input type="text" name="username" id="username" class="w-full mt-2 py-4 px-6 bg-white rounded-xl pl-10 outline-gray-100" value="{{ form.username.value }}">
+                        <span class="absolute left-3 top-2/3 transform -translate-y-1/2 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                            </svg> 
+                        </span>
+                    </div>
+                </div>
+
+               <div>
+                    <label for="">First name</label>
+                    <input type="text" name="first_name" class="w-full mt-2 py-4 px-6 bg-white rounded-xl" value="{{ form.first_name.value }}">
+                </div>
+
+                <div>
+                    <label for="">Last name</label>
+                    <input type="text" name="last_name" class="w-full mt-2 py-4 px-6 bg-white rounded-xl" value="{{ form.last_name.value }}">
+                </div>
+
+                <div class="relative">
+                    <label for="email">E-mail</label>
+                    <div class="flex items-center">
+                        <input type="email" name="email" id="email" class="w-full mt-2 py-4 px-10 bg-white rounded-xl" value="{{ form.email.value }}">
+                        <span class="absolute left-3 top-2/3 transform -translate-y-1/2 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>                              
+                        </span>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <label for="password1">Password</label>
+                    <input type="password" name="password1" id="password1" class="w-full mt-2 py-4 px-6 bg-white rounded-xl outline-gray-100">
+                    <span class="absolute right-6 top-2/3 transform -translate-y-1/2 cursor-pointer" onclick="togglePasswordVisibility('password1', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </span>
+                </div>
+
+                <div class="relative">
+                    <label for="password2">Repeat Password</label>
+                    <input type="password" name="password2" id="password2" class="w-full mt-2 py-4 px-6 bg-white rounded-xl outline-gray-100">
+                    <span class="absolute right-6 top-2/3 transform -translate-y-1/2 cursor-pointer" onclick="togglePasswordVisibility('password2', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </span>
+                </div>
+
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="p-6 bg-red-200 text-red-800 rounded-xl">
+                                <p>{{ error|escape }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
+                        <div class="p-6 bg-red-200 text-red-800 rounded-xl">
+                            <p>{{ error|escape }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div>
+                    <button class="py-4 px-6 rounded-xl text-white bg-purple-500 hover:bg-purple-700" id="submitBtn" disabled>Sign UP</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    function togglePasswordVisibility(inputId, eyeIcon) {
+        var input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            eyeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /></svg>';
+        } else {
+            input.type = "password";
+            eyeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>';
+        }
+    }
+
+    function checkFormFields() {
+        var allFieldsFilled = true;
+        var formInputs = document.querySelectorAll('#registrationForm input');
+
+        formInputs.forEach(function(input) {
+            if (input.value.trim() === '') {
+                allFieldsFilled = false;
+                return;
+            }
+        });
+
+        var submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = !allFieldsFilled;
+
+        // Update styles based on the filled state
+        if (allFieldsFilled) {
+            submitBtn.classList.remove('bg-gray-400', 'hover:bg-gray-500');
+            submitBtn.classList.add('bg-purple-500', 'hover:bg-purple-700');
+        } else {
+            submitBtn.classList.remove('bg-purple-500', 'hover:bg-purple-700');
+            submitBtn.classList.add('bg-gray-400', 'hover:bg-gray-500');
+        }
+    }
+
+    // Attach the checkFormFields function to input events
+    var formInputs = document.querySelectorAll('#registrationForm input');
+    formInputs.forEach(function(input) {
+        input.addEventListener('input', checkFormFields);
+    });
+
+    // Initial check to disable submit button if any field is empty
+    checkFormFields();
+</script>
+{% endblock scripts %}
